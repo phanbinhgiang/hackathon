@@ -5,6 +5,7 @@ const {
   getAllTasks,
   createTask,
   getTask,
+  getTasksByOwner,
   updateTask,
   deleteTask,
   editTask,
@@ -13,5 +14,6 @@ const {
 router.route('/').get(getAllTasks).post(createTask)
 // router.route('/:id').get(getTask).patch(updateTask).delete(deleteTask)
 router.route('/:id').get(getTask)
+
 
 module.exports = router

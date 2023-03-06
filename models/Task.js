@@ -10,7 +10,7 @@ const TaskSchema = new mongoose.Schema(
 
     name: {
       type: String,
-      required: [true, 'must provide name'],
+      // required: [true, 'must provide name'],
       trim: true,
     },
 
@@ -21,7 +21,7 @@ const TaskSchema = new mongoose.Schema(
 
     image: {
       type: String,
-      required: [true, 'must provide link image'],
+      // required: [true, 'must provide link image'],
       trim: true,
     },
 

@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const tasks = require('./routes/tasks');
+const owner = require('./routes/owner');
 const connectDB = require('./db/connect');
 require('dotenv').config();
 const notFound = require('./middleware/not-found');
@@ -16,6 +17,7 @@ app.use(express.json());
 // routes
 
 app.use('/metadata/token', tasks);
+app.use('/metadata/owner', owner);
 
 app.use(notFound);
 app.use(errorHandlerMiddleware);

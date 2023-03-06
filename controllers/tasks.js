@@ -1,8 +1,9 @@
 const Task = require('../models/Task')
 const asyncWrapper = require('../middleware/async')
 const { createCustomError } = require('../errors/custom-error')
+
 const getAllTasks = asyncWrapper(async (req, res) => {
-  const tasks = await Task.find({})
+  const tasks = await Task.find({}, { _id: 0, id: 1, type: 1, name: 1, description: 1, image: 1, owner: 1 })
   res.status(200).json(tasks)
 })
 
@@ -19,14 +20,28 @@ const createTask = asyncWrapper(async (req, res) => {
 
 const getTask = asyncWrapper(async (req, res, next) => {
   const { id: taskID } = req.params
-  const task = await Task.findOne({ id: taskID })
+  const task = await Task.findOne({ id: taskID },
+    { _id: 0, id: 1, type: 1, name: 1, description: 1, image: 1, owner: 1 })
   if (!task) {
-    res.status(404).json({ msg: `No task with id : ${taskID}` })
+    res.status(404).json({ msg: `No data with id: ${taskID}` })
   } else {
     res.status(200).json(task)
   }
 
 })
+
+const getTasksByOwner = asyncWrapper(async (req, res, next) => {
+  const { owner } = req.params
+  const tasks = await Task.find({ owner },
+    { _id: 0, id: 1, type: 1, name: 1, description: 1, image: 1, owner: 1 })
+  if (!tasks.length) {
+    res.status(404).json({ msg: `No data of owner: ${owner}` })
+  } else {
+    res.status(200).json(tasks)
+  }
+
+})
+
 
 // const deleteTask = asyncWrapper(async (req, res, next) => {
 //   const { id: taskID } = req.params
@@ -55,6 +70,7 @@ module.exports = {
   getAllTasks,
   createTask,
   getTask,
+  getTasksByOwner,
   // updateTask,
   // deleteTask,
 }
